@@ -14,6 +14,7 @@ const userGroupListCacheFileName = "usergroups.json"
 
 func resourceSlackUserGroup() *schema.Resource {
 	return &schema.Resource{
+		Description: "Group of users with handle",
 		Schema: map[string]*schema.Schema{
 			"handle": {
 				Type:     schema.TypeString,

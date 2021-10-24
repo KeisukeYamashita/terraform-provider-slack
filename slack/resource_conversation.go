@@ -23,6 +23,7 @@ var validateConversationActionOnDestroyValue = validation.StringInSlice([]string
 
 func resourceSlackConversation() *schema.Resource {
 	return &schema.Resource{
+		Description: "Channel-like things encountered in Slack",
 		Schema: map[string]*schema.Schema{
 			"name": {
 				Type:     schema.TypeString,
