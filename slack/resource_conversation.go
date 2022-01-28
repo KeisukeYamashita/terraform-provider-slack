@@ -83,20 +83,39 @@ func resourceSlackConversation() *schema.Resource {
 	}
 }
 
-func configureSlackConversation(d *schema.ResourceData, channel *slack.Channel) {
-	d.SetId(channel.ID)
-	_ = d.Set("name", channel.Name)
-	_ = d.Set("topic", channel.Topic.Value)
-	_ = d.Set("purpose", channel.Purpose.Value)
-	_ = d.Set("is_archived", channel.IsArchived)
-	_ = d.Set("is_shared", channel.IsShared)
-	_ = d.Set("is_ext_shared", channel.IsExtShared)
-	_ = d.Set("is_org_shared", channel.IsOrgShared)
-	_ = d.Set("created", channel.Created)
-	_ = d.Set("creator", channel.Creator)
+func configureSlackConversation(d *schema.ResourceData, channel *slack.Channel) error {
+	if err := d.Set("name", channel.Name); err != nil {
+		return err
+	}
+	if err := d.Set("topic", channel.Topic.Value); err != nil {
+		return err
+	}
+	if err := d.Set("purpose", channel.Purpose.Value); err != nil {
+		return err
+	}
+	if err := d.Set("is_archived", channel.IsArchived); err != nil {
+		return err
+	}
+	if err := d.Set("is_shared", channel.IsShared); err != nil {
+		return err
+	}
+	if err := d.Set("is_ext_shared", channel.IsExtShared); err != nil {
+		return err
+	}
+	if err := d.Set("is_org_shared", channel.IsOrgShared); err != nil {
+		return err
+	}
+	if err := d.Set("created", channel.Created); err != nil {
+		return err
+	}
+	if err := d.Set("creator", channel.Creator); err != nil {
+		return err
+	}
 
 	// Required
-	_ = d.Set("is_private", channel.IsPrivate)
+	if err := d.Set("is_private", channel.IsPrivate); err != nil {
+		return err
+	}
 
 	// Never support
 	//_ = d.Set("members", channel.Members)
@@ -105,6 +124,7 @@ func configureSlackConversation(d *schema.ResourceData, channel *slack.Channel) 
 	//_ = d.Set("unread_count_display", channel.UnreadCountDisplay)
 	//_ = d.Set("last_read", channel.Name)
 	//_ = d.Set("latest", channel.Name)
+	return nil
 }
 
 func resourceSlackConversationCreate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
@@ -120,9 +140,8 @@ func resourceSlackConversationCreate(ctx context.Context, d *schema.ResourceData
 		return diag.FromErr(err)
 	}
 
-	configureSlackConversation(d, channel)
-
-	return nil
+	d.SetId(channel.ID)
+	return resourceSlackConversationRead(ctx, d, meta)
 }
 
 func resourceSlackConversationRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
@@ -134,10 +153,12 @@ func resourceSlackConversationRead(ctx context.Context, d *schema.ResourceData, 
 	channel, err := client.GetConversationInfoContext(ctx, id, false)
 
 	if err != nil {
-		diag.FromErr(err)
+		return diag.FromErr(err)
 	}
 
-	configureSlackConversation(d, channel)
+	if err := configureSlackConversation(d, channel); err != nil {
+		return diag.FromErr(err)
+	}
 
 	return nil
 }
@@ -147,18 +168,18 @@ func resourceSlackConversationUpdate(ctx context.Context, d *schema.ResourceData
 	id := d.Id()
 
 	if _, err := client.RenameConversationContext(ctx, id, d.Get("name").(string)); err != nil {
-		diag.FromErr(err)
+		return diag.FromErr(err)
 	}
 
 	if topic, ok := d.GetOk("topic"); ok {
 		if _, err := client.SetTopicOfConversationContext(ctx, id, topic.(string)); err != nil {
-			diag.FromErr(err)
+			return diag.FromErr(err)
 		}
 	}
 
 	if purpose, ok := d.GetOk("purpose"); ok {
 		if _, err := client.SetPurposeOfConversationContext(ctx, id, purpose.(string)); err != nil {
-			diag.FromErr(err)
+			return diag.FromErr(err)
 		}
 	}
 
@@ -166,13 +187,13 @@ func resourceSlackConversationUpdate(ctx context.Context, d *schema.ResourceData
 		if isArchived.(bool) {
 			if err := client.ArchiveConversationContext(ctx, id); err != nil {
 				if err.Error() != "already_archived" {
-					diag.FromErr(err)
+					return diag.FromErr(err)
 				}
 			}
 		} else {
 			if err := client.UnArchiveConversationContext(ctx, id); err != nil {
 				if err.Error() != "not_archived" {
-					diag.FromErr(err)
+					return diag.FromErr(err)
 				}
 			}
 		}
