@@ -208,3 +208,6 @@ terraform-provider-slack_*
 
 # Terraform files for debugging
 /*.tf
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
