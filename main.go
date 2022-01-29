@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/KeisukeYamashita/terraform-provider-slack/slack"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
-	"github.com/jmatsu/terraform-provider-slack/slack"
 )
 
 //go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
