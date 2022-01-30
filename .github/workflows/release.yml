@@ -38,9 +38,9 @@ jobs:
           git config user.email "$(git log -n 1 --pretty=format:%ae)"
 
       - run: |
-          version=${{ github.event.release.tag_name }}
+          version=${{ github.event.push.ref }}
           git add .
-          git commit -m "Generate doc for ${version}" .
+          git commit -m "Generate doc for ${version##*/}" .
           git push origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
