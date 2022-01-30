@@ -73,16 +73,45 @@ func dataSlackConversationRead(ctx context.Context, d *schema.ResourceData, meta
 	}
 
 	d.SetId(channel.ID)
-	_ = d.Set("name", channel.Name)
-	_ = d.Set("topic", channel.Topic.Value)
-	_ = d.Set("purpose", channel.Purpose.Value)
-	_ = d.Set("is_private", channel.IsPrivate)
-	_ = d.Set("is_archived", channel.IsArchived)
-	_ = d.Set("is_shared", channel.IsShared)
-	_ = d.Set("is_ext_shared", channel.IsExtShared)
-	_ = d.Set("is_org_shared", channel.IsOrgShared)
-	_ = d.Set("created", channel.Created)
-	_ = d.Set("creator", channel.Creator)
+	if err := d.Set("name", channel.Name); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("topic", channel.Topic.Value); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("purpose", channel.Purpose.Value); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("is_private", channel.IsPrivate); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("is_archived", channel.IsArchived); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("is_shared", channel.IsShared); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("is_ext_shared", channel.IsExtShared); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("is_org_shared", channel.IsOrgShared); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("created", channel.Created); err != nil {
+		return diag.FromErr(err)
+	}
+
+	if err := d.Set("creator", channel.Creator); err != nil {
+		return diag.FromErr(err)
+	}
 
 	return nil
 }
