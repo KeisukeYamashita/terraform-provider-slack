@@ -41,7 +41,7 @@ jobs:
           version=${{ github.event.push.ref }}
           git add .
           git commit -m "Generate doc for ${version##*/}" .
-          git push origin master
+          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
