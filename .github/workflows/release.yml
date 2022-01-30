@@ -18,6 +18,8 @@ on:
 
 jobs:
   update-doc:
+    environment:
+      name: release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
