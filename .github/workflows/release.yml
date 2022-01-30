@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          ref: "master"
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -36,9 +38,8 @@ jobs:
           git config user.email "$(git log -n 1 --pretty=format:%ae)"
 
       - run: |
-          version=${{ github.event.push.ref }}
           git add .
-          git commit -m "Generate doc for ${version##*/}" .
+          git commit -m "Generate doc for ${GITHUB_REF##*/}" .
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
