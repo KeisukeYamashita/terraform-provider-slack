@@ -40,7 +40,7 @@ jobs:
       - run: |
           git add .
           git commit -m "Generate doc for ${GITHUB_REF##*/}" .
-          git push
+          git push --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
