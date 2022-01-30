@@ -42,7 +42,7 @@ jobs:
           git commit -m "Generate doc for ${GITHUB_REF##*/}" .
           git push --force
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.KEKE_GITHUB_TOKEN }}
 
   gorelease:
     runs-on: ubuntu-latest
