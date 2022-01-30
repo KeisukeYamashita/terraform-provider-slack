@@ -32,6 +32,11 @@ jobs:
 
       - run: go generate ./...
 
+      - name: Configure user
+        run: |
+          git config user.name "$(git log -n 1 --pretty=format:%an)"
+          git config user.email "$(git log -n 1 --pretty=format:%ae)"
+
       - run: |
           version=${{ github.event.release.tag_name }}
           git add .
