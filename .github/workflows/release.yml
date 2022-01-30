@@ -29,6 +29,11 @@ jobs:
           go-version: 1.17.x
 
       - run: go generate ./...
+      - run: |
+          version=${{ github.event.release.tag_name }}
+          git add .
+          git commit -m "Generate doc for ${version}" .
+          git push origin master
 
   gorelease:
     runs-on: ubuntu-latest
