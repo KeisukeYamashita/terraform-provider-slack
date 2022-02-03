@@ -16,31 +16,23 @@ func Provider() *schema.Provider {
 				Type:        schema.TypeString,
 				Required:    true,
 				DefaultFunc: schema.EnvDefaultFunc("SLACK_TOKEN", nil),
-				Description: descriptions["token"],
+				Description: "The OAuth token used to connect to Slack. This can also be set via the SLACK_TOKEN environment variable.",
 			},
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
+			"slack_conversation": dataSourceConversation(),
 			"slack_user":         dataSourceSlackUser(),
 			"slack_usergroup":    dataSourceUserGroup(),
-			"slack_conversation": dataSourceConversation(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"slack_usergroup":          resourceSlackUserGroup(),
-			"slack_usergroup_members":  resourceSlackUserGroupMembers(),
 			"slack_conversation":       resourceSlackConversation(),
+			"slack_usergroup":          resourceSlackUserGroup(),
 			"slack_usergroup_channels": resourceSlackUserGroupChannels(),
+			"slack_usergroup_members":  resourceSlackUserGroupMembers(),
 		},
 		ConfigureContextFunc: providerConfigure,
-	}
-}
-
-var descriptions map[string]string
-
-func init() {
-	descriptions = map[string]string{
-		"token": "The OAuth token used to connect to Slack. This can also be set via the SLACK_TOKEN environment variable.",
 	}
 }
 
