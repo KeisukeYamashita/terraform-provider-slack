@@ -21,8 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: release
-    needs:
-      - update-doc
     steps:
       - name: Checkout
         uses: actions/checkout@v2
