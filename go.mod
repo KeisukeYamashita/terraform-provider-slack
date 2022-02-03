@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.8.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/slack-go/slack v0.10.1
-	gopkg.in/djherbis/times.v1 v1.2.0
+	gopkg.in/djherbis/times.v1 v1.3.0
 )
 
 require (
