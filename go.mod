@@ -6,7 +6,7 @@ require (
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/hashicorp/terraform-plugin-docs v0.5.1
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.24.0
-	github.com/slack-go/slack v0.10.2
+	github.com/slack-go/slack v0.12.1
 	gopkg.in/djherbis/times.v1 v1.3.0
 )
 
